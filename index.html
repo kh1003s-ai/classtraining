@@ -35,20 +35,23 @@
         .notice-content { font-size: 1.05rem; color: #444; white-space: pre-wrap; word-break: break-all; line-height: 1.6; min-height: 100px; outline: none; text-align: left; display: block; }
         
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; } 
-        .student-card { background: white; padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; position: relative; min-height: 250px; display: flex; flex-direction: column; justify-content: center; } 
+        .student-card { background: white; padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: flex-start; } 
         .student-card:hover { border-color: var(--main-blue); box-shadow: 0 8px 15px rgba(0,0,0,0.1); transform: translateY(-3px); } 
         .teacher-card { border: 3px solid var(--purple) !important; background: #fdfaff !important; } 
         .gold-card { border: 3px solid var(--gold) !important; background: #fffdf5 !important; box-shadow: 0 0 15px rgba(241, 196, 15, 0.2); } 
 
         /* 캐릭터 전용 스타일 */
-        .char-img-container { width: 100px; height: 100px; margin: 0 auto 10px auto; border-radius: 50%; overflow: hidden; border: 3px solid #eee; background: #fafafa; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        .char-img-container { width: 100px; height: 100px; margin: 10px auto 10px auto; border-radius: 50%; overflow: hidden; border: 3px solid #eee; background: #fafafa; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
         .char-img { width: 100%; height: 100%; object-fit: cover; }
         .char-placeholder { font-size: 3rem; opacity: 0.2; }
         
-        .card-titles { margin: 8px 0; min-height: 25px; display: flex; justify-content: center; flex-wrap: wrap; gap: 3px; } 
+        /* 🚀 수정: 카드 강화 별 스타일 (번호 아래 표시를 위한 마진 조정) */
+        .card-enhance-stars { color: var(--gold); font-size: 1.1rem; height: 1.2rem; margin-top: 2px; margin-bottom: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+
+        .card-titles { margin: 5px 0; min-height: 25px; display: flex; justify-content: center; flex-wrap: wrap; gap: 3px; } 
         .card-money { font-size: 0.95rem; color: #d35400; font-weight: bold; margin-bottom: 5px; } 
         .personal-stat-sum { font-size: 0.7rem; color: #555; background: #eef5ff; padding: 2px 8px; border-radius: 20px; font-weight: 600; } 
-        .edit-area { margin-top: 10px; display: none; justify-content: center; gap: 8px; } 
+        .edit-area { margin-top: auto; display: none; justify-content: center; gap: 8px; padding-top: 10px; } 
         .student-card:hover .edit-area { display: flex; } 
         .edit-btn { font-size: 10px; color: #aaa; text-decoration: underline; cursor: pointer; } 
         .edit-btn:hover { color: var(--admin-red); } 
@@ -85,6 +88,14 @@
         .item-card.sold-out { opacity: 0.5; filter: grayscale(1); pointer-events: none; } 
         .stat-admin-btn { padding: 2px 6px; font-size: 12px; cursor: pointer; background: #fff; border: 1px solid #ddd; border-radius: 4px; } 
 
+        /* 강화 UI 스타일 */
+        .enhance-info-box { background: #fffdf5; border: 2px solid var(--gold); border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.1); }
+        .enhance-title { font-weight: bold; color: #b58900; font-size: 1.1rem; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        .enhance-stats { font-size: 0.9rem; color: #666; background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee; text-align: left; }
+        .enhance-btn { width: 100%; background: var(--gold); color: #856404; font-weight: bold; border: 1px solid #b58900; margin-top: 10px; font-size: 1rem; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+        .enhance-btn:hover { background: #f39c12; }
+        .enhance-btn:disabled { background: #bdc3c7; border-color: #95a5a6; color: #7f8c8d; cursor: not-allowed; text-shadow: none; }
+
         /* 퀴즈 관련 스타일 */
         .quiz-card { border: 2px solid var(--main-blue); border-radius: 15px; padding: 20px; margin-bottom: 20px; background: #fdfdff; }
         .quiz-card img { max-width: 100%; max-height: 300px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; }
@@ -100,6 +111,7 @@
 </head> 
 <body> 
 
+    <!-- 초기 설정 모달 -->
     <div id="setupModal" class="modal-overlay">
         <div class="modal-content">
             <h2 style="color:var(--main-blue); margin-top:0;">캐릭터 생성</h2>
@@ -120,6 +132,7 @@
         </div>
     </div>
 
+    <!-- 진화 모달 -->
     <div id="evoModal" class="modal-overlay">
         <div class="modal-content">
             <h2 id="evoTitle" style="color:var(--gold); margin-top:0; text-shadow: 0 2px 2px rgba(0,0,0,0.1);">캐릭터 진화!</h2>
@@ -152,6 +165,7 @@
                 </div> 
                 <div id="studentGrid" class="grid-container"></div> 
                 
+                <!-- 관리자 패널: 진화 일러스트 -->
                 <div id="adminEvoPanel" class="admin-manager-panel">
                     <h2 style="color:var(--admin-red); margin-top:0;">🖼️ 진화 일러스트(URL) 관리</h2>
                     <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">외부에서 생성한 캐릭터 이미지의 웹 링크(URL)를 직업별로 등록하세요.</p>
@@ -179,11 +193,13 @@
                     </div>
                 </div>
 
+                <!-- 관리자 패널: 상점 -->
                 <div id="adminShopPanel" class="admin-manager-panel"> 
                     <h2 style="color:var(--admin-red); margin-top:0;">🛠️ 상점 실시간 관리</h2> 
                     <div class="admin-shop-grid" id="adminShopGrid"></div> 
                 </div> 
 
+                <!-- 관리자 패널: 퀴즈 -->
                 <div id="adminQuizPanel" class="admin-manager-panel">
                     <h2 style="color:var(--admin-red); margin-top:0;">📝 퀴즈 출제 및 관리</h2>
                     <div class="admin-quiz-form">
@@ -223,7 +239,9 @@
                         </div>
 
                         <div id="multipleChoiceSetup" style="display:none; flex-direction:column; gap:5px; background:white; padding:10px; border:1px dashed #ccc; border-radius:5px;"></div>
+
                         <input type="text" id="qAnswerShort" placeholder="주관식 정답 입력 (띄어쓰기 무시 처리됨)">
+
                         <button class="btn btn-blue" onclick="addQuiz()">✅ 퀴즈 등록하기</button>
                     </div>
 
@@ -245,6 +263,7 @@
         </div> 
     </div> 
 
+    <!-- 상세 페이지 -->
     <div id="detailPage"> 
         <button class="btn" onclick="showMain()" style="margin-bottom:20px;">← 전체 명단</button> 
         <div style="display: flex; gap: 40px;"> 
@@ -257,6 +276,18 @@
                     </div>
                     <div id="detailCharName" style="font-weight:900; font-size:1.2rem; color:var(--dark); margin-top:5px; background: #eee; padding:4px 10px; border-radius:15px; display:inline-block;">기본 상태</div>
                     <div id="detailCharTier" style="font-size:0.8rem; color:#888; margin-top:8px;">Tier 0</div>
+                </div>
+
+                <!-- 강화 UI 세션 -->
+                <div id="enhanceSection" class="enhance-info-box" style="display:none;">
+                    <div class="enhance-title">⭐ <span id="dtEnhanceLevel">0</span>강화 ⭐</div>
+                    <div class="enhance-stats">
+                        현재 효과: 모든 능력 +<span id="dtCurrentEffect">0</span><br>
+                        <div id="enhanceNextInfo" style="margin-top:8px;">
+                            <!-- JS로 내용 주입됨 -->
+                        </div>
+                    </div>
+                    <button id="enhanceBtn" class="btn enhance-btn" onclick="attemptEnhance()">✨ 강화 시도하기</button>
                 </div>
 
                 <h4>🏆 획득한 칭호</h4> 
@@ -335,7 +366,6 @@
         let noticeText = ""; 
         let tempQuizImageBase64 = ""; 
 
-        // 🚨 복원 완료: 직업 진화 데이터 
         const evolutionData = {
             M: {
                 1: [{img: '', n:'초보 검사'}, {img: '', n:'견습 마법사'}, {img: '', n:'떠돌이 닌자'}],
@@ -357,7 +387,6 @@
             }
         };
 
-        // 🚨 복원 완료: 기본 칭호 목록 10개 + 자동 칭호 목록 10개 🚨
         const defaultTitles = [ 
             { id: 't1', name: '6학년을 시작하는 자', icon: '🌱', price: 3000, effect: '모든 능력치 +1', onSale: true }, 
             { id: 't2', name: '6학년을 조금 아는 자', icon: '🌿', price: 15000, effect: '모든 능력치 +5', onSale: true }, 
@@ -381,7 +410,6 @@
             { id: 's10', name: '절약정신', icon: '💰', price: 0, effect: '모든 능력치 +5', onSale: false, isAuto: true }
         ];
 
-        // 🚨 복원 완료: 포션 목록 5개 🚨
         const defaultPotions = [ 
             { id: 'p1', name: '체력 포션', icon: '❤️', stat: '체력', price: 500, onSale: true }, 
             { id: 'p2', name: '지력 포션', icon: '💎', stat: '지력', price: 500, onSale: true },
@@ -389,6 +417,18 @@
             { id: 'p4', name: '정신력 포션', icon: '🌀', stat: '정신력', price: 500, onSale: true }, 
             { id: 'p5', name: '인성 포션', icon: '🍀', stat: '인성', price: 500, onSale: true } 
         ]; 
+
+        // 🌟 🚀 신규: 하드코어 강화 데이터 설정 (페널티 제거, 정확한 확률 적용)
+        const enhanceConfig = [
+            { level: 0, cost: 500, prob: 0.70, effect: 1, reward: 0 },
+            { level: 1, cost: 1000, prob: 0.60, effect: 2, reward: 0 },
+            { level: 2, cost: 1500, prob: 0.50, effect: 3, reward: 1000 },
+            { level: 3, cost: 2000, prob: 0.40, effect: 5, reward: 2000 },
+            { level: 4, cost: 2500, prob: 0.30, effect: 7, reward: 3000 },
+            { level: 5, cost: 3000, prob: 0.20, effect: 10, reward: 5000 },
+            { level: 6, cost: 4000, prob: 0.10, effect: 20, reward: 10000 },
+            { level: 7, cost: 0, prob: 0, effect: 20, reward: 0 } // MAX 레벨
+        ];
 
         function updateStudentDB(idx) { if (!db || !students[idx]) return; db.ref(`class65_root/students/${idx}`).update(students[idx]); }
         function updateShopDB() { if (!db) return; db.ref('class65_root').update({ titleData: titleData, potionData: potionData }); }
@@ -462,7 +502,8 @@
                 id: Date.now() + i, num: i + 1, name: (i === 24) ? "선생님" : `${i + 1}번 학생`,
                 money: 10000, donation: 0, stats: { "체력": 5, "지력": 5, "창의성": 5, "정신력": 5, "인성": 5 },
                 myTitles: [], solvedQuizzes: [], 
-                pw: null, gender: null, characterStage: 0, characterImg: null, characterName: null
+                pw: null, gender: null, characterStage: 0, characterImg: null, characterName: null,
+                enhanceLevel: 0 
             }));
 
             db.ref('class65_root').set({
@@ -546,7 +587,7 @@
             if (!pw || !gender) return alert("비밀번호와 성별을 올바르게 선택해주세요.");
 
             const s = students[currentIdx];
-            s.pw = pw; s.gender = gender; s.characterStage = 0; 
+            s.pw = pw; s.gender = gender; s.characterStage = 0; s.enhanceLevel = 0; 
             updateStudentDB(currentIdx);
 
             document.getElementById('setupModal').style.display = 'none';
@@ -576,13 +617,21 @@
                 let charDisplay = `<div class="char-placeholder">👤</div>`;
                 if(s.characterImg) charDisplay = `<img class="char-img" src="${s.characterImg}" alt="${s.characterName}">`;
 
+                let enhanceStarsHtml = '';
+                if (idx !== 24 && s.enhanceLevel && s.enhanceLevel > 0) {
+                    enhanceStarsHtml = `<div class="card-enhance-stars">${'⭐'.repeat(s.enhanceLevel)}</div>`;
+                } else {
+                    enhanceStarsHtml = `<div class="card-enhance-stars"></div>`; 
+                }
+
                 const card = document.createElement('div'); 
                 card.className = `student-card ${idx === 24 ? 'teacher-card' : (top3Ids.includes(s.id) ? 'gold-card' : '')}`; 
                 
                 card.innerHTML = ` 
                     <div style="font-size:12px; color:#888;">${idx === 24 ? '' : s.num + '번'}</div> 
+                    ${enhanceStarsHtml} <!-- 🌟 번호 아래로 이동 -->
                     <div class="char-img-container">${charDisplay}</div>
-                    <div style="font-weight:bold; font-size:1.1rem;">${s.name}</div> 
+                    <div style="font-weight:bold; font-size:1.1rem; ${idx !== 24 ? 'margin-bottom:0px;' : 'margin-bottom:5px;'}">${s.name}</div> 
                     <div class="card-titles" style="min-height: 25px; margin: 5px 0;">${(s.myTitles || []).map(t => `<span title="${t.name}">${t.icon}</span>`).join('')}</div>
                     <div class="card-money" style="font-size:0.9rem; color:#d35400; font-weight:bold;">💰 ${s.money.toLocaleString()}원</div>
                     <div style="margin-top: 5px;"><span class="personal-stat-sum">⚡ 능력치 ${statSum}</span></div> 
@@ -622,7 +671,6 @@
             document.getElementById('donationRankList').innerHTML = donHtml; 
         } 
 
-        // 🚨 복원 완료: 자동 칭호 달성 조건 검사기 🚨
         function checkAutoTitles(idx) {
             const s = students[idx];
             if (!s.myTitles) s.myTitles = [];
@@ -636,7 +684,7 @@
                 { id: 's4', cond: s.stats['정신력'] >= 60, effect: () => s.stats['정신력'] += 10 },
                 { id: 's5', cond: s.stats['인성'] >= 60, effect: () => s.stats['인성'] += 10 },
                 { id: 's6', cond: statSum >= 350, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 7)) },
-                { id: 's7', cond: statSum >= 500, effect: () => {} }, // s7은 효과 없음(전설 상징)
+                { id: 's7', cond: statSum >= 500, effect: () => {} }, 
                 { id: 's8', cond: s.donation >= 30000, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 5)) },
                 { id: 's9', cond: s.myTitles.length >= 7, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 5)) },
                 { id: 's10', cond: s.money >= 30000, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 5)) }
@@ -694,6 +742,44 @@
             document.getElementById('detailCharName').innerText = s.characterName || '캐릭터 미설정';
             document.getElementById('detailCharTier').innerText = (s.characterStage && s.characterStage !== 99) ? `Tier ${s.characterStage}` : (s.characterStage === 99 ? '관리자' : 'Tier 0');
 
+            // 🌟 상세 페이지 강화 UI 업데이트
+            const enhanceSec = document.getElementById('enhanceSection');
+            const enhanceBtn = document.getElementById('enhanceBtn');
+            const nextInfo = document.getElementById('enhanceNextInfo');
+
+            if (currentIdx === 24) { 
+                enhanceSec.style.display = 'none';
+            } else {
+                enhanceSec.style.display = 'block';
+                const Lv = s.enhanceLevel || 0;
+                document.getElementById('dtEnhanceLevel').innerText = Lv;
+                
+                const currentEffect = Lv === 0 ? 0 : enhanceConfig[Lv-1].effect;
+                document.getElementById('dtCurrentEffect').innerText = currentEffect;
+
+                if (Lv >= 7) { 
+                    nextInfo.style.display = 'none';
+                    enhanceBtn.disabled = true;
+                    enhanceBtn.innerText = "🔱 최고 단계 도달 (MAX)";
+                } else {
+                    nextInfo.style.display = 'block';
+                    enhanceBtn.disabled = false;
+                    const config = enhanceConfig[Lv]; 
+                    
+                    let rewardHtml = config.reward > 0 ? `<br>성공 시 보상: <span style="color:var(--green); font-weight:bold;">+${config.reward.toLocaleString()}원</span>` : '';
+
+                    // 🌟 페널티 없음 문구 적용
+                    nextInfo.innerHTML = `
+                        다음 비용: <span style="color:#d35400; font-weight:bold;">${config.cost.toLocaleString()}원</span><br>
+                        성공 확률: <span style="color:var(--main-blue); font-weight:bold;">${Math.round(config.prob * 100)}%</span><br>
+                        성공 효과: 모든 능력 추가 +${config.effect - currentEffect}${rewardHtml}<br>
+                        실패 시: 페널티 없음 (단계 유지)
+                    `;
+
+                    enhanceBtn.innerText = `✨ ${Lv}강 ➔ ${Lv+1}강 강화 시도`;
+                }
+            }
+
             document.getElementById('viewName').innerText = (currentIdx === 24) ? `🏫 ${s.name}` : `${s.num}번 ${s.name}`; 
             document.getElementById('viewMoney').innerText = s.money.toLocaleString(); 
             document.getElementById('viewMyDonation').innerText = s.donation.toLocaleString(); 
@@ -716,6 +802,61 @@
             document.getElementById('adminStatControls').innerHTML = adminH; 
             document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none'; 
         } 
+
+        // 🌟 수정된 강화 시도 로직 (실패 시 단계 하락 없음, 보상/비용/확률 신규 규칙 적용)
+        function attemptEnhance() {
+            const s = students[currentIdx];
+            if (!s || currentIdx === 24) return;
+            
+            const currentLv = s.enhanceLevel || 0;
+            if (currentLv >= 7) return alert("이미 최고 단계입니다.");
+
+            const config = enhanceConfig[currentLv];
+
+            if (s.money < config.cost) {
+                return alert(`돈이 부족합니다.\n필요 금액: ${config.cost.toLocaleString()}원`);
+            }
+
+            if(!confirm(`${currentLv}강 ➔ ${currentLv+1}강 강화를 시도하시겠습니까?\n비용: ${config.cost.toLocaleString()}원\n성공 확률: ${Math.round(config.prob*100)}%`)) return;
+
+            s.money -= config.cost;
+
+            const roll = Math.random();
+            let isSuccess = roll < config.prob;
+            let statChanges = 0; 
+
+            if (isSuccess) {
+                s.enhanceLevel = currentLv + 1;
+                
+                // 🌟 이전 단계 효과를 빼고 차이만큼만 증가시키기
+                const prevTotalEffect = currentLv === 0 ? 0 : enhanceConfig[currentLv-1].effect;
+                const newTotalEffect = enhanceConfig[currentLv].effect;
+                statChanges = newTotalEffect - prevTotalEffect;
+
+                let rewardMsg = "";
+                if (config.reward > 0) {
+                    s.money += config.reward;
+                    rewardMsg = `\n💰 보상금 ${config.reward.toLocaleString()}원 획득!`;
+                }
+
+                alert(`🎊 축하합니다! 강화 성공!\n[${currentLv+1}강화] 달성! (모든 능력 +${statChanges} 추가 적용)${rewardMsg}`);
+            } else {
+                // 🌟 실패 시 단계 유지
+                alert(`🔨 아아... 강화 실패입니다.\n하지만 다행히 단계가 하락하지 않습니다! (${currentLv}강 유지)`);
+                statChanges = 0;
+            }
+
+            if (statChanges !== 0) {
+                Object.keys(s.stats).forEach(k => {
+                    s.stats[k] = Math.max(1, Math.min(100, s.stats[k] + statChanges));
+                });
+            }
+
+            updateStudentDB(currentIdx);
+            checkAutoTitles(currentIdx); 
+            checkEvolution(currentIdx); 
+            updateUI();
+        }
 
         function toggleAdmin() { 
             if (!isAdmin) { 
@@ -769,28 +910,18 @@
             let statMsg = "";
             if(['t1', 't2', 't3', 't10'].includes(t.id)) {
                 let bonus = 5;
-                if (t.id === 't1') bonus = 1;
-                else if (t.id === 't2') bonus = 5;
-                else if (t.id === 't3') bonus = 10;
-                else if (t.id === 't10') bonus = 20;
+                if (t.id === 't1') bonus = 1; else if (t.id === 't2') bonus = 5; else if (t.id === 't3') bonus = 10; else if (t.id === 't10') bonus = 20;
                 Object.keys(s.stats).forEach(k => { s.stats[k] = Math.min(100, s.stats[k] + bonus); });
-                statMsg = `\n모든 능력치가 +${bonus} 상승했습니다!`;
+                statMsg = `\n모든 능력이 +${bonus} 상승했습니다!`;
             }
-            else if(t.id === 't4') {
-                Object.keys(s.stats).forEach(k => s.stats[k] = 100);
-                statMsg = `\n모든 능력치가 100이 되었습니다!`;
-            }
+            else if(t.id === 't4') { Object.keys(s.stats).forEach(k => s.stats[k] = 100); statMsg = `\n모든 능력이 100이 되었습니다!`; }
             else if(['t5', 't6', 't7', 't8', 't9'].includes(t.id)) {
                 const mapping = { 't5': '지력', 't6': '체력', 't7': '창의성', 't8': '정신력', 't9': '인성' };
                 const statKey = mapping[t.id];
-                if(statKey) {
-                    s.stats[statKey] = Math.min(100, s.stats[statKey] + 10);
-                    statMsg = `\n${statKey} 능력치가 +10 상승했습니다!`;
-                }
+                if(statKey) { s.stats[statKey] = Math.min(100, s.stats[statKey] + 10); statMsg = `\n${statKey} 능력치가 +10 상승했습니다!`; }
             }
             
-            updateStudentDB(currentIdx); 
-            alert(`🎉 [${t.name}] 칭호 구매 완료!${statMsg}`); 
+            updateStudentDB(currentIdx); alert(`🎉 [${t.name}] 칭호 구매 완료!${statMsg}`); 
             renderShopItems(); checkAutoTitles(currentIdx); checkEvolution(currentIdx); 
         }
 
@@ -807,98 +938,34 @@
         function renderAdminShop() {
             const grid = document.getElementById('adminShopGrid');
             if (!grid) return;
-            grid.style.width = '100%'; 
-            grid.style.overflowX = 'auto'; 
-            grid.style.paddingBottom = '10px'; 
-            grid.innerHTML = ''; 
-
-            const wrapper = document.createElement('div');
-            wrapper.style.display = 'flex'; 
-            wrapper.style.flexDirection = 'column'; 
-            wrapper.style.gap = '25px'; 
-            wrapper.style.minWidth = '850px'; 
-            wrapper.style.width = '100%'; 
-            wrapper.style.boxSizing = 'border-box';
-
+            grid.style.width = '100%'; grid.style.overflowX = 'auto'; grid.style.paddingBottom = '10px'; grid.innerHTML = ''; 
+            const wrapper = document.createElement('div'); wrapper.style.display = 'flex'; wrapper.style.flexDirection = 'column'; wrapper.style.gap = '25px'; wrapper.style.minWidth = '850px'; wrapper.style.width = '100%'; wrapper.style.boxSizing = 'border-box';
             const createCard = (item) => {
-                const card = document.createElement('div');
-                card.className = `admin-item-card ${(!item.onSale && !item.isAuto) ? 'off-item' : ''}`;
-                card.style.display = 'flex'; 
-                card.style.flexDirection = 'column'; 
-                card.style.border = '1px solid #ffcfcf';
-                card.style.padding = '10px 8px'; 
-                card.style.borderRadius = '12px'; 
-                card.style.background = '#fff';
-                card.style.gap = '8px'; 
-                card.style.boxSizing = 'border-box'; 
-                card.style.width = '100%'; 
-                card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.02)';
-                
-                const namePart = `<div style="display:flex; align-items:center; gap:6px; border-bottom:1px solid #f0f0f0; padding-bottom:6px;">
-                                    <span style="font-size:1.0rem; flex-shrink:0;">${item.icon}</span>
-                                    <strong style="font-size:1.0rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; color:#333;">${item.name}</strong>
-                                  </div>`;
-                
+                const card = document.createElement('div'); card.className = `admin-item-card ${(!item.onSale && !item.isAuto) ? 'off-item' : ''}`;
+                card.style.display = 'flex'; card.style.flexDirection = 'column'; card.style.border = '1px solid #ffcfcf'; card.style.padding = '10px 8px'; card.style.borderRadius = '12px'; card.style.background = '#fff'; card.style.gap = '8px'; card.style.boxSizing = 'border-box'; card.style.width = '100%'; card.style.boxShadow = '0 2px 5px rgba(0,0,0,0.02)';
+                const namePart = `<div style="display:flex; align-items:center; gap:6px; border-bottom:1px solid #f0f0f0; padding-bottom:6px;"><span style="font-size:1.0rem; flex-shrink:0;">${item.icon}</span><strong style="font-size:1.0rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; color:#333;">${item.name}</strong></div>`;
                 let controlHtml = '';
-                if (item.isAuto) {
-                    controlHtml = `<div style="color:#4a90e2; font-size:11px; font-weight:bold; text-align:center; padding:5px 0;">[자동 지급 아이템]</div>`;
-                } else {
-                    controlHtml = `<div style="display:flex; align-items:center; gap:5px; justify-content:space-between;">
-                                    <input type="number" id="p-edit-${item.id}" value="${item.price}" style="width:100px; padding:3px; border:1px solid #ccc; border-radius:5px; font-size:12px; height:24px; outline:none;"> 
-                                    <div style="display:flex; gap:3px; flex:1; justify-content:flex-end;">
-                                        <button class="btn" style="padding:0 8px; font-size:11px; white-space:nowrap; height:28px; cursor:pointer; flex:1; max-width:45px;" onclick="editPrice('${item.id}')">수정</button> 
-                                        <button class="btn" style="padding:0 6px; font-size:11px; background:${item.onSale ? '#ff4d4d' : '#2ecc71'}; color:white; white-space:nowrap; height:28px; cursor:pointer; flex:1; max-width:45px;" onclick="toggleItem('${item.id}')">${item.onSale ? '품절' : '판매'}</button>
-                                    </div>
-                                   </div>`;
-                }
-                card.innerHTML = `${namePart}${controlHtml}`;
-                return card;
+                if (item.isAuto) { controlHtml = `<div style="color:#4a90e2; font-size:11px; font-weight:bold; text-align:center; padding:5px 0;">[자동 지급 아이템]</div>`; } 
+                else { controlHtml = `<div style="display:flex; align-items:center; gap:5px; justify-content:space-between;"><input type="number" id="p-edit-${item.id}" value="${item.price}" style="width:100px; padding:3px; border:1px solid #ccc; border-radius:5px; font-size:12px; height:24px; outline:none;"> <div style="display:flex; gap:3px; flex:1; justify-content:flex-end;"><button class="btn" style="padding:0 8px; font-size:11px; white-space:nowrap; height:28px; cursor:pointer; flex:1; max-width:45px;" onclick="editPrice('${item.id}')">수정</button> <button class="btn" style="padding:0 6px; font-size:11px; background:${item.onSale ? '#ff4d4d' : '#2ecc71'}; color:white; white-space:nowrap; height:28px; cursor:pointer; flex:1; max-width:45px;" onclick="toggleItem('${item.id}')">${item.onSale ? '품절' : '판매'}</button></div></div>`; }
+                card.innerHTML = `${namePart}${controlHtml}`; return card;
             };
-
             const createSection = (title, data, color) => {
-                const sec = document.createElement('div');
-                sec.style.width = '100%';
-                sec.innerHTML = `<h4 style="margin:0 0 12px 0; color:${color}; font-size:1.1rem; border-left:5px solid ${color}; padding-left:12px;">${title}</h4>`;
-                
-                const g = document.createElement('div');
-                g.style.display = 'grid'; 
-                g.style.gridTemplateColumns = 'repeat(5, 1fr)'; 
-                g.style.gap = '12px'; 
-                g.style.width = '100%';
-                
-                data.forEach(item => g.appendChild(createCard(item)));
-                sec.appendChild(g);
-                return sec;
+                const sec = document.createElement('div'); sec.style.width = '100%'; sec.innerHTML = `<h4 style="margin:0 0 12px 0; color:${color}; font-size:1.1rem; border-left:5px solid ${color}; padding-left:12px;">${title}</h4>`;
+                const g = document.createElement('div'); g.style.display = 'grid'; g.style.gridTemplateColumns = 'repeat(5, 1fr)'; g.style.gap = '12px'; g.style.width = '100%';
+                data.forEach(item => g.appendChild(createCard(item))); sec.appendChild(g); return sec;
             };
-
-            wrapper.appendChild(createSection('🎖️ 칭호 실시간 관리', titleData, 'var(--main-blue)'));
-            wrapper.appendChild(createSection('🧪 포션 실시간 관리', potionData, 'var(--purple)'));
-            grid.appendChild(wrapper);
+            wrapper.appendChild(createSection('🎖️ 칭호 실시간 관리', titleData, 'var(--main-blue)')); wrapper.appendChild(createSection('🧪 포션 실시간 관리', potionData, 'var(--purple)')); grid.appendChild(wrapper);
         }
 
         function generateMultipleChoiceInputs() {
-            const count = parseInt(document.getElementById('qOptionCount').value);
-            const container = document.getElementById('multipleChoiceSetup');
-            let html = '<div style="margin-bottom:8px; font-size:0.9rem; color:var(--admin-red);">✅ 정답인 보기의 체크박스를 모두 선택하세요 (복수정답 가능)</div>';
-            for(let i=1; i<=count; i++) {
-                html += `<div style="display:flex; align-items:center; gap:8px; margin-bottom:5px;">
-                            <input type="checkbox" id="qCorrect${i}" style="width:20px; height:20px; cursor:pointer;">
-                            <input type="text" id="qOpt${i}" style="flex:1;" placeholder="${i}번 보기 내용">
-                         </div>`;
-            }
-            container.innerHTML = html;
+            const count = parseInt(document.getElementById('qOptionCount').value); const container = document.getElementById('multipleChoiceSetup'); let html = '<div style="margin-bottom:8px; font-size:0.9rem; color:var(--admin-red);">✅ 정답인 보기의 체크박스를 모두 선택하세요 (복수정답 가능)</div>';
+            for(let i=1; i<=count; i++) { html += `<div style="display:flex; align-items:center; gap:8px; margin-bottom:5px;"><input type="checkbox" id="qCorrect${i}" style="width:20px; height:20px; cursor:pointer;"><input type="text" id="qOpt${i}" style="flex:1;" placeholder="${i}번 보기 내용"></div>`; } container.innerHTML = html;
         }
 
         function toggleQuizOptions() {
-            const type = document.getElementById('qInputType').value;
-            const multipleDiv = document.getElementById('multipleChoiceSetup');
-            const shortInput = document.getElementById('qAnswerShort');
-            const optionCountSelect = document.getElementById('qOptionCount');
-            
-            if(type === 'multiple') {
-                multipleDiv.style.display = 'flex'; shortInput.style.display = 'none'; optionCountSelect.style.display = 'inline-block';
-                if (multipleDiv.innerHTML.trim() === '') generateMultipleChoiceInputs();
-            } else { multipleDiv.style.display = 'none'; shortInput.style.display = 'block'; optionCountSelect.style.display = 'none'; }
+            const type = document.getElementById('qInputType').value; const multipleDiv = document.getElementById('multipleChoiceSetup'); const shortInput = document.getElementById('qAnswerShort'); const optionCountSelect = document.getElementById('qOptionCount');
+            if(type === 'multiple') { multipleDiv.style.display = 'flex'; shortInput.style.display = 'none'; optionCountSelect.style.display = 'inline-block'; if (multipleDiv.innerHTML.trim() === '') generateMultipleChoiceInputs(); } 
+            else { multipleDiv.style.display = 'none'; shortInput.style.display = 'block'; optionCountSelect.style.display = 'none'; }
         }
 
         function handleQuizImage(event) {
@@ -910,24 +977,15 @@
         }
 
         function addQuiz() {
-            const desc = document.getElementById('qInputDesc').value.trim(); const type = document.getElementById('qInputType').value;
-            const rewardType = document.getElementById('qRewardType').value; const rewardAmt = parseInt(document.getElementById('qRewardAmount').value);
+            const desc = document.getElementById('qInputDesc').value.trim(); const type = document.getElementById('qInputType').value; const rewardType = document.getElementById('qRewardType').value; const rewardAmt = parseInt(document.getElementById('qRewardAmount').value);
             if(!desc || isNaN(rewardAmt)) return alert("문제와 보상량 입력!");
 
             let quizObj = { id: 'q_' + Date.now(), desc: desc, type: type, image: tempQuizImageBase64, rewardType: rewardType, rewardAmt: rewardAmt, active: true };
-
             if(type === 'multiple') {
-                const count = parseInt(document.getElementById('qOptionCount').value);
-                let optionsArray = []; let answersArray = []; 
-                for(let i=1; i<=count; i++) {
-                    const optVal = document.getElementById(`qOpt${i}`).value.trim(); if(!optVal) return alert("보기 빈칸 오류!");
-                    optionsArray.push(optVal); if(document.getElementById(`qCorrect${i}`).checked) answersArray.push(String(i)); 
-                }
-                if(answersArray.length === 0) return alert("최소 1개 이상 정답 체크!");
-                quizObj.options = optionsArray; quizObj.answer = answersArray; 
-            } else {
-                const ans = document.getElementById('qAnswerShort').value.trim(); if(!ans) return alert("주관식 정답 입력!"); quizObj.answer = ans; 
-            }
+                const count = parseInt(document.getElementById('qOptionCount').value); let optionsArray = []; let answersArray = []; 
+                for(let i=1; i<=count; i++) { const optVal = document.getElementById(`qOpt${i}`).value.trim(); if(!optVal) return alert("보기 빈칸 오류!"); optionsArray.push(optVal); if(document.getElementById(`qCorrect${i}`).checked) answersArray.push(String(i)); }
+                if(answersArray.length === 0) return alert("최소 1개 이상 정답 체크!"); quizObj.options = optionsArray; quizObj.answer = answersArray; 
+            } else { const ans = document.getElementById('qAnswerShort').value.trim(); if(!ans) return alert("주관식 정답 입력!"); quizObj.answer = ans; }
 
             quizData.push(quizObj); updateQuizDB(); alert("등록 완료!");
             document.getElementById('qInputDesc').value = ""; document.getElementById('qInputImg').value = ""; document.getElementById('qImgPreview').style.display = "none"; tempQuizImageBase64 = ""; document.getElementById('qAnswerShort').value = "";
@@ -935,22 +993,15 @@
         }
 
         function renderAdminQuizList() {
-            const listDiv = document.getElementById('adminQuizList');
-            if(!quizData || quizData.length === 0) { listDiv.innerHTML = "<div style='color:#888;'>퀴즈가 없습니다.</div>"; return; }
+            const listDiv = document.getElementById('adminQuizList'); if(!quizData || quizData.length === 0) { listDiv.innerHTML = "<div style='color:#888;'>퀴즈가 없습니다.</div>"; return; }
             let html = "";
             quizData.forEach((q, idx) => {
-                const rewardText = q.rewardType === 'money' ? `${q.rewardAmt}원` : `${q.rewardType} +${q.rewardAmt}`;
-                const ansDisplay = Array.isArray(q.answer) ? q.answer.join(',') + '번' : q.answer;
-                html += `<div style="background:white; border:1px solid #ddd; padding:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
-                    <div><strong style="margin-left:5px;">${q.type === 'multiple' ? '객관식' : '주관식'}</strong> ${q.desc.substring(0,20)}... <br><small>🎁 ${rewardText} | 정답: ${ansDisplay}</small></div>
-                    <div style="display:flex; gap:5px;"><button class="btn" style="background:var(--admin-red); color:white;" onclick="deleteQuiz(${idx})">삭제</button></div>
-                </div>`;
-            });
-            listDiv.innerHTML = html;
+                const rewardText = q.rewardType === 'money' ? `${q.rewardAmt}원` : `${q.rewardType} +${q.rewardAmt}`; const ansDisplay = Array.isArray(q.answer) ? q.answer.join(',') + '번' : q.answer;
+                html += `<div style="background:white; border:1px solid #ddd; padding:10px; margin-bottom:10px; display:flex; justify-content:space-between;"><div><strong style="margin-left:5px;">${q.type === 'multiple' ? '객관식' : '주관식'}</strong> ${q.desc.substring(0,20)}... <br><small>🎁 ${rewardText} | 정답: ${ansDisplay}</small></div><div style="display:flex; gap:5px;"><button class="btn" style="background:var(--admin-red); color:white;" onclick="deleteQuiz(${idx})">삭제</button></div></div>`;
+            }); listDiv.innerHTML = html;
         }
 
         function deleteQuiz(idx) { if(confirm("삭제할까요?")) { quizData.splice(idx, 1); updateQuizDB(); renderAdminQuizList(); } }
-
         function showQuizPage() { document.getElementById('detailPage').style.display='none'; document.getElementById('quizPage').style.display='block'; renderStudentQuizList(); }
         function closeQuizPage() { document.getElementById('quizPage').style.display='none'; document.getElementById('detailPage').style.display='block'; updateUI(); }
 
@@ -959,35 +1010,26 @@
             if(!student.solvedQuizzes) student.solvedQuizzes = [];
             const availableQuizzes = (quizData || []).filter(q => q.active && !student.solvedQuizzes.includes(q.id));
             if(availableQuizzes.length === 0) { listDiv.innerHTML = "<div style='text-align:center;'>풀 퀴즈가 없습니다!</div>"; return; }
-
             let html = "";
             availableQuizzes.forEach(q => {
-                const rewardText = q.rewardType === 'money' ? `${q.rewardAmt}원` : `${q.rewardType} 스탯 +${q.rewardAmt}`;
-                let inputHtml = "";
-                if(q.type === 'multiple') {
-                    q.options.forEach((opt, i) => { inputHtml += `<label class="quiz-option-label"><input type="checkbox" name="ans_${q.id}" value="${i+1}"> ${i+1}번: ${opt}</label>`; });
-                } else { inputHtml = `<input type="text" id="ans_${q.id}" class="quiz-short-input" placeholder="정답">`; }
+                const rewardText = q.rewardType === 'money' ? `${q.rewardAmt}원` : `${q.rewardType} 스탯 +${q.rewardAmt}`; let inputHtml = "";
+                if(q.type === 'multiple') { q.options.forEach((opt, i) => { inputHtml += `<label class="quiz-option-label"><input type="checkbox" name="ans_${q.id}" value="${i+1}"> ${i+1}번: ${opt}</label>`; }); } 
+                else { inputHtml = `<input type="text" id="ans_${q.id}" class="quiz-short-input" placeholder="정답">`; }
                 html += `<div class="quiz-card"><div class="quiz-reward-badge">🎁 보상: ${rewardText}</div><div class="quiz-question">${q.desc}</div>${q.image ? `<img src="${q.image}">` : ''}<div class="quiz-options">${inputHtml}</div><button class="btn btn-blue" style="width:100%;" onclick="submitQuiz('${q.id}')">정답 제출하기</button></div>`;
-            });
-            listDiv.innerHTML = html;
+            }); listDiv.innerHTML = html;
         }
 
         function submitQuiz(qId) {
             const student = students[currentIdx]; const quiz = quizData.find(q => q.id === qId); if(!quiz) return;
             let isCorrect = false;
-
             if(quiz.type === 'multiple') {
                 const checkedNodes = document.querySelectorAll(`input[name="ans_${qId}"]:checked`);
                 if(checkedNodes.length === 0) return alert("보기를 선택해주세요!");
-                const studentAnswers = Array.from(checkedNodes).map(cb => String(cb.value));
-                const correctAnswers = Array.isArray(quiz.answer) ? quiz.answer : [String(quiz.answer)];
+                const studentAnswers = Array.from(checkedNodes).map(cb => String(cb.value)); const correctAnswers = Array.isArray(quiz.answer) ? quiz.answer : [String(quiz.answer)];
                 isCorrect = (studentAnswers.length === correctAnswers.length) && studentAnswers.every(val => correctAnswers.includes(val));
             } else {
-                const studentAnswer = document.getElementById(`ans_${qId}`).value.trim();
-                const formatStr = (str) => String(str).replace(/\s/g, '').toLowerCase();
-                isCorrect = (formatStr(studentAnswer) === formatStr(quiz.answer));
+                const studentAnswer = document.getElementById(`ans_${qId}`).value.trim(); const formatStr = (str) => String(str).replace(/\s/g, '').toLowerCase(); isCorrect = (formatStr(studentAnswer) === formatStr(quiz.answer));
             }
-
             if(isCorrect) {
                 if(quiz.rewardType === 'money') student.money += quiz.rewardAmt; else student.stats[quiz.rewardType] = Math.min(100, student.stats[quiz.rewardType] + quiz.rewardAmt);
                 student.solvedQuizzes.push(quiz.id); updateStudentDB(currentIdx);
@@ -1000,22 +1042,10 @@
         function editName(e, i) { e.stopPropagation(); const n = prompt("새 이름", students[i].name); if(n) { students[i].name = n; updateStudentDB(i); } } 
         function resetStudentPw() { const newPw = document.getElementById('newStudentPw').value; if(newPw) { students[currentIdx].pw = newPw; updateStudentDB(currentIdx); alert("변경됨"); } } 
         function resetIndividualData() {
-            if (!isAdmin) return;
-            const s = students[currentIdx];
+            if (!isAdmin) return; const s = students[currentIdx];
             if (confirm(`[${s.name}] 학생 데이터를 초기화할까요?`)) {
-                s.money = 10000;
-                s.donation = 0;
-                s.stats = { "체력": 5, "지력": 5, "창의성": 5, "정신력": 5, "인성": 5 };
-                s.myTitles = [];
-                s.solvedQuizzes = [];
-                s.pw = null;
-                s.gender = null;
-                s.characterStage = 0;
-                s.characterImg = null;
-                s.characterName = null;
-                updateStudentDB(currentIdx);
-                alert("해당 학생 데이터가 초기화되었습니다.");
-                updateUI();
+                s.money = 10000; s.donation = 0; s.stats = { "체력": 5, "지력": 5, "창의성": 5, "정신력": 5, "인성": 5 }; s.myTitles = []; s.solvedQuizzes = []; s.pw = null; s.gender = null; s.characterStage = 0; s.characterImg = null; s.characterName = null; s.enhanceLevel = 0; 
+                updateStudentDB(currentIdx); alert("해당 학생 데이터가 초기화되었습니다."); updateUI();
             }
         }
         function resetAllData() { if(isAdmin && confirm("전체 초기화?") && prompt("삭제승인 입력") === "삭제승인") resetToDefault(); } 
