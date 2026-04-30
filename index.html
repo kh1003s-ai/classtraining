@@ -628,8 +628,8 @@
                 card.className = `student-card ${idx === 24 ? 'teacher-card' : (top3Ids.includes(s.id) ? 'gold-card' : '')}`; 
                 
                 card.innerHTML = ` 
-                    ${enhanceStarsHtml} <!-- 🌟 별 표시 가장 상단 이동 -->
                     <div style="font-size:12px; color:#888;">${idx === 24 ? '' : s.num + '번'}</div> 
+                                        ${enhanceStarsHtml} 
                     <div class="char-img-container">${charDisplay}</div>
                     <div style="font-weight:bold; font-size:1.1rem; ${idx !== 24 ? 'margin-bottom:0px;' : 'margin-bottom:5px;'}">${s.name}</div> 
                     <div class="card-titles" style="min-height: 25px; margin: 5px 0;">${(s.myTitles || []).map(t => `<span title="${t.name}">${t.icon}</span>`).join('')}</div>
