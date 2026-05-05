@@ -7,7 +7,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script> 
     
     <style> 
-        /* CSS 스타일링 */ 
+        /* CSS 스타일링 (기존과 동일) */ 
         :root { --main-blue: #4a90e2; --admin-red: #e74c3c; --gold: #f1c40f; --green: #2ecc71; --purple: #9b59b6; --dark: #34495e; --notice-bg: #fff9db; } 
         body { font-family: 'Pretendard', sans-serif; background: #f0f4f8; margin: 0; padding: 20px; } 
         .main-wrapper { display: flex; gap: 20px; max-width: 1450px; margin: auto; align-items: flex-start; } 
@@ -33,21 +33,15 @@
         .edit-badge { font-size: 10px; background: var(--admin-red); color: white; padding: 2px 6px; border-radius: 4px; display: none; } 
         #saveNoticeBtn { display: none; padding: 4px 10px; font-size: 12px; margin-left: 10px; }
         .notice-content { font-size: 1.05rem; color: #444; white-space: pre-wrap; word-break: break-all; line-height: 1.6; min-height: 100px; outline: none; text-align: left; display: block; }
-        
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; } 
         .student-card { background: white; padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: flex-start; } 
         .student-card:hover { border-color: var(--main-blue); box-shadow: 0 8px 15px rgba(0,0,0,0.1); transform: translateY(-3px); } 
         .teacher-card { border: 3px solid var(--purple) !important; background: #fdfaff !important; } 
         .gold-card { border: 3px solid var(--gold) !important; background: #fffdf5 !important; box-shadow: 0 0 15px rgba(241, 196, 15, 0.2); } 
-
-        /* 캐릭터 전용 스타일 */
         .char-img-container { width: 100px; height: 100px; margin: 10px auto 10px auto; border-radius: 50%; overflow: hidden; border: 3px solid #eee; background: #fafafa; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
         .char-img { width: 100%; height: 100%; object-fit: cover; }
         .char-placeholder { font-size: 3rem; opacity: 0.2; }
-        
-        /* 🚀 수정: 카드 강화 별 스타일 (번호 아래 표시를 위한 마진 조정) */
         .card-enhance-stars { color: var(--gold); font-size: 1.1rem; height: 1.2rem; margin-top: 2px; margin-bottom: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-
         .card-titles { margin: 5px 0; min-height: 25px; display: flex; justify-content: center; flex-wrap: wrap; gap: 3px; } 
         .card-money { font-size: 0.95rem; color: #d35400; font-weight: bold; margin-bottom: 5px; } 
         .personal-stat-sum { font-size: 0.7rem; color: #555; background: #eef5ff; padding: 2px 8px; border-radius: 20px; font-weight: 600; } 
@@ -55,8 +49,6 @@
         .student-card:hover .edit-area { display: flex; } 
         .edit-btn { font-size: 10px; color: #aaa; text-decoration: underline; cursor: pointer; } 
         .edit-btn:hover { color: var(--admin-red); } 
-
-        /* 모달 시스템 스타일 */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(3px); }
         .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 600px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.3); position: relative; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -69,8 +61,6 @@
         .setup-input-group label { font-weight: bold; color: var(--dark); display: block; margin-bottom: 5px; }
         .setup-input-group input, .setup-input-group select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; box-sizing: border-box; outline: none; transition: 0.2s; }
         .setup-input-group input:focus, .setup-input-group select:focus { border-color: var(--main-blue); }
-        
-        /* 어드민 패널 스타일 */
         .admin-manager-panel { display: none; margin-top: 30px; background: #fff; padding: 25px; border-radius: 20px; border: 2px solid var(--admin-red); } 
         .admin-shop-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .admin-category-box { background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
@@ -78,8 +68,6 @@
         .admin-item-card { background: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 10px 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.03); transition: all 0.2s; }
         .admin-item-card input { width: 60px; padding: 3px; } 
         .off-item { opacity: 0.5; background: #f9f9f9; } 
-        
-        /* 공통 페이지 모달 스타일 */
         #detailPage, #shopPage, #quizPage { display: none; max-width: 900px; margin: 20px auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); } 
         .medal-shelf { display: flex; flex-wrap: wrap; gap: 10px; background: #f9f9f9; padding: 15px; border-radius: 15px; border: 2px inset #eee; min-height: 50px; margin-bottom: 20px; } 
         .btn { padding: 10px 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; } 
@@ -87,16 +75,12 @@
         .item-card { border: 1px solid #eee; padding: 12px; border-radius: 12px; text-align: center; } 
         .item-card.sold-out { opacity: 0.5; filter: grayscale(1); pointer-events: none; } 
         .stat-admin-btn { padding: 2px 6px; font-size: 12px; cursor: pointer; background: #fff; border: 1px solid #ddd; border-radius: 4px; } 
-
-        /* 강화 UI 스타일 */
         .enhance-info-box { background: #fffdf5; border: 2px solid var(--gold); border-radius: 15px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.1); }
         .enhance-title { font-weight: bold; color: #b58900; font-size: 1.1rem; margin-bottom: 8px; display: flex; justify-content: center; align-items: center; gap: 5px; }
         .enhance-stats { font-size: 0.9rem; color: #666; background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee; text-align: left; }
         .enhance-btn { width: 100%; background: var(--gold); color: #856404; font-weight: bold; border: 1px solid #b58900; margin-top: 10px; font-size: 1rem; text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
         .enhance-btn:hover { background: #f39c12; }
         .enhance-btn:disabled { background: #bdc3c7; border-color: #95a5a6; color: #7f8c8d; cursor: not-allowed; text-shadow: none; }
-
-        /* 퀴즈 관련 스타일 */
         .quiz-card { border: 2px solid var(--main-blue); border-radius: 15px; padding: 20px; margin-bottom: 20px; background: #fdfdff; }
         .quiz-card img { max-width: 100%; max-height: 300px; border-radius: 8px; margin: 10px 0; border: 1px solid #ddd; }
         .quiz-question { font-size: 1.2rem; font-weight: bold; margin-bottom: 15px; color: var(--dark); }
@@ -170,11 +154,11 @@
                     <h2 style="color:var(--admin-red); margin-top:0;">🖼️ 진화 일러스트(URL) 관리</h2>
                     <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">외부에서 생성한 캐릭터 이미지의 웹 링크(URL)를 직업별로 등록하세요.</p>
                     <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:#fdfaef; padding:15px; border-radius:10px; border:1px solid #f1c40f;">
-                        <select id="evoGenInput" style="padding:8px; border-radius:5px; border:1px solid #ccc; outline:none;">
+                        <select id="evoGenInput">
                             <option value="M">남학생</option>
                             <option value="F">여학생</option>
                         </select>
-                        <select id="evoTierInput" style="padding:8px; border-radius:5px; border:1px solid #ccc; outline:none;">
+                        <select id="evoTierInput">
                             <option value="1">1단계 (0~100)</option>
                             <option value="2">2단계 (101~200)</option>
                             <option value="3">3단계 (201~300)</option>
@@ -183,7 +167,7 @@
                             <option value="6">6단계 (능력치 500 달성)</option>
                             <option value="99">관리자(선생님) 전용</option>
                         </select>
-                        <select id="evoClassInput" style="padding:8px; border-radius:5px; border:1px solid #ccc; outline:none;">
+                        <select id="evoClassInput">
                             <option value="0">직업 1 (왼쪽 팝업)</option>
                             <option value="1">직업 2 (중앙 팝업)</option>
                             <option value="2">직업 3 (오른쪽 팝업)</option>
@@ -283,9 +267,7 @@
                     <div class="enhance-title">⭐ <span id="dtEnhanceLevel">0</span>강화 ⭐</div>
                     <div class="enhance-stats">
                         현재 효과: 모든 능력 +<span id="dtCurrentEffect">0</span><br>
-                        <div id="enhanceNextInfo" style="margin-top:8px;">
-                            <!-- JS로 내용 주입됨 -->
-                        </div>
+                        <div id="enhanceNextInfo" style="margin-top:8px;"></div>
                     </div>
                     <button id="enhanceBtn" class="btn enhance-btn" onclick="attemptEnhance()">✨ 강화 시도하기</button>
                 </div>
@@ -337,7 +319,7 @@
     </div>
 
     <script> 
-        // 1. Firebase 설정
+        // 1. Firebase 설정 (기존 정보 유지)
         const firebaseConfig = { 
             apiKey: "AIzaSyCqE1dKLYBjVnJFtnet7I4NKyKUAma3dgY", 
             authDomain: "class6-5-5faf8.firebaseapp.com", 
@@ -418,7 +400,6 @@
             { id: 'p5', name: '인성 포션', icon: '🍀', stat: '인성', price: 500, onSale: true } 
         ]; 
 
-        // 🌟 🚀 신규: 하드코어 강화 데이터 설정 (선생님 요청 비율 100% 반영)
         const enhanceConfig = [
             { level: 0, cost: 1000, prob: 0.70, effect: 1, reward: 0 },
             { level: 1, cost: 1500, prob: 0.60, effect: 2, reward: 0 },
@@ -427,7 +408,7 @@
             { level: 4, cost: 3000, prob: 0.30, effect: 7, reward: 3000 },
             { level: 5, cost: 3500, prob: 0.20, effect: 10, reward: 5000 },
             { level: 6, cost: 4000, prob: 0.10, effect: 20, reward: 10000 },
-            { level: 7, cost: 0, prob: 0, effect: 20, reward: 0 } // MAX 레벨
+            { level: 7, cost: 0, prob: 0, effect: 20, reward: 0 } 
         ];
 
         function updateStudentDB(idx) { if (!db || !students[idx]) return; db.ref(`class65_root/students/${idx}`).update(students[idx]); }
@@ -485,9 +466,7 @@
             let t = document.getElementById('evoTierInput').value;
             let c = document.getElementById('evoClassInput').value;
             let url = document.getElementById('evoUrlInput').value.trim();
-            
             if(!url) return alert("이미지 URL을 붙여넣으세요!");
-            
             customEvoImages[`${g}_${t}_${c}`] = url;
             if (db) {
                 db.ref('class65_root/customEvoImages').set(customEvoImages).then(() => {
@@ -505,7 +484,6 @@
                 pw: null, gender: null, characterStage: 0, characterImg: null, characterName: null,
                 enhanceLevel: 0 
             }));
-
             db.ref('class65_root').set({
                 students: students, noticeText: "반갑습니다!", titleData: defaultTitles, potionData: defaultPotions, quizData: [], customEvoImages: {}
             });
@@ -513,10 +491,9 @@
         }
 
         function getExpectedTier(idx) {
-            if (idx === 24) return 99; // 선생님 계정
+            if (idx === 24) return 99;
             const s = students[idx];
             const statSum = Object.values(s.stats).reduce((a, b) => a + b, 0);
-            
             if(statSum <= 100) return 1; 
             if(statSum <= 200) return 2; 
             if(statSum <= 300) return 3; 
@@ -528,9 +505,7 @@
         function checkEvolution(idx) {
             const s = students[idx]; 
             if (!s.gender) return false;
-            
             const expectedTier = getExpectedTier(idx);
-
             if (expectedTier > (s.characterStage || 0)) {
                 const nextTier = (idx === 24) ? 99 : (s.characterStage || 0) + 1;
                 openEvolutionModal(idx, nextTier);
@@ -543,14 +518,11 @@
             const s = students[idx];
             let titleText = `✨ 축하합니다! ${tier}단계 진화!`;
             let descText = `능력치가 성장하여 새로운 직업으로 전직합니다!`;
-            
             if(tier === 1) { titleText = "🌟 당신의 첫 캐릭터를 선택하세요!"; descText = "모험을 시작할 캐릭터를 골라주세요."; } 
             else if (tier === 6) { titleText = "🔥 궁극의 경지, 능력치 500 달성!"; descText = "모든 능력치를 극한으로 끌어올린 자만의 특권입니다."; } 
             else if (tier === 99) { titleText = "👑 선생님 전용 캐릭터 설정"; descText = "반을 이끌어갈 관리자 캐릭터를 선택하세요."; }
-
             document.getElementById('evoTitle').innerText = titleText;
             document.getElementById('evoDesc').innerText = descText;
-            
             let html = '';
             evolutionData[s.gender][tier].forEach((char, i) => {
                 html += `
@@ -566,12 +538,10 @@
         function selectCharacter(idx, tier, choiceIndex) {
             const s = students[idx];
             const char = evolutionData[s.gender][tier][choiceIndex];
-            
             s.characterImg = char.img; 
             s.characterName = char.n; 
             s.characterStage = tier;
             updateStudentDB(idx);
-
             document.getElementById('evoModal').style.display = 'none';
             alert(`🎉 [${char.n}] (으)로 진화/변경 완료!`);
             updateUI(); 
@@ -583,13 +553,10 @@
         function completeSetup() {
             const pw = document.getElementById('setupPw').value.trim();
             const gender = document.getElementById('setupGender').value;
-            
             if (!pw || !gender) return alert("비밀번호와 성별을 올바르게 선택해주세요.");
-
             const s = students[currentIdx];
             s.pw = pw; s.gender = gender; s.characterStage = 0; s.enhanceLevel = 0; 
             updateStudentDB(currentIdx);
-
             document.getElementById('setupModal').style.display = 'none';
             showDetail(currentIdx); 
         }
@@ -600,33 +567,24 @@
             const noticeBox = document.getElementById('noticeBox'); 
             const editBadge = document.getElementById('editBadge'); 
             const saveNoticeBtn = document.getElementById('saveNoticeBtn');
-            
             noticeEl.contentEditable = isAdmin ? "true" : "false"; 
             isAdmin ? noticeBox.classList.add('admin-edit-mode') : noticeBox.classList.remove('admin-edit-mode'); 
             editBadge.style.display = isAdmin ? "inline" : "none"; 
             saveNoticeBtn.style.display = isAdmin ? "inline-block" : "none";
-
             const grid = document.getElementById('studentGrid'); 
             grid.innerHTML = ''; let totalD = 0; 
             students.forEach((s, idx) => { 
                 totalD += s.donation; 
                 const statSum = Object.values(s.stats).reduce((a, b) => a + b, 0); 
-                
                 const detailStatsHtml = `<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; font-size: 0.65rem; color: #666; margin-top: 8px; padding-top: 8px; border-top: 1px dotted #eee;"><span>❤️${s.stats['체력']}</span><span>💎${s.stats['지력']}</span><span>💡${s.stats['창의성']}</span><span>🌀${s.stats['정신력']}</span><span>🍀${s.stats['인성']}</span></div>`;
-
                 let charDisplay = `<div class="char-placeholder">👤</div>`;
                 if(s.characterImg) charDisplay = `<img class="char-img" src="${s.characterImg}" alt="${s.characterName}">`;
-
                 let enhanceStarsHtml = '';
                 if (s.enhanceLevel && s.enhanceLevel > 0) {
                     enhanceStarsHtml = `<div class="card-enhance-stars">${'⭐'.repeat(s.enhanceLevel)}</div>`;
-                } else {
-                    enhanceStarsHtml = `<div class="card-enhance-stars"></div>`; 
-                }
-
+                } else { enhanceStarsHtml = `<div class="card-enhance-stars"></div>`; }
                 const card = document.createElement('div'); 
                 card.className = `student-card ${idx === 24 ? 'teacher-card' : (top3Ids.includes(s.id) ? 'gold-card' : '')}`; 
-                
                 card.innerHTML = ` 
                     <div style="font-size:12px; color:#888;">${idx === 24 ? '' : s.num + '번'}</div> 
                                         ${enhanceStarsHtml} 
@@ -652,7 +610,6 @@
                 return sumB - sumA; 
             }); 
             top3Ids = sortedByStat.slice(0, 3).map(s => s.id); 
-            
             let statHtml = ''; 
             sortedByStat.slice(0, 10).forEach((s, i) => { 
                 const sum = Object.values(s.stats).reduce((p, c) => p + c, 0); 
@@ -661,7 +618,6 @@
                 </div>`; 
             }); 
             document.getElementById('statRankList').innerHTML = statHtml; 
-
             const donSorted = [...onlyStudents].sort((a, b) => b.donation - a.donation).slice(0, 10); 
             let donHtml = ''; 
             donSorted.forEach((s, i) => { 
@@ -676,7 +632,6 @@
             if (!s.myTitles) s.myTitles = [];
             let updated = false;
             const statSum = Object.values(s.stats).reduce((a, b) => a + b, 0);
-
             const conditions = [
                 { id: 's1', cond: s.stats['체력'] >= 60, effect: () => s.stats['체력'] += 10 },
                 { id: 's2', cond: s.stats['지력'] >= 60, effect: () => s.stats['지력'] += 10 },
@@ -689,7 +644,6 @@
                 { id: 's9', cond: s.myTitles.length >= 7, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 5)) },
                 { id: 's10', cond: s.money >= 30000, effect: () => Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k] + 5)) }
             ]; 
-
             conditions.forEach(c => {
                 const alreadyHas = s.myTitles.some(t => t.id === c.id);
                 if (c.cond && !alreadyHas) {
@@ -700,7 +654,6 @@
                     }
                 }
             });
-
             if (updated) {
                 Object.keys(s.stats).forEach(k => s.stats[k] = Math.min(100, s.stats[k]));
                 updateStudentDB(idx); 
@@ -709,14 +662,10 @@
 
         function showDetail(idx) { 
             const s = students[idx]; 
-            
             if (!isAdmin) { 
                 if (!s.pw || !s.gender) { openSetupModal(idx); return; } 
                 if (prompt("비밀번호 입력") !== s.pw) return alert("틀렸습니다."); 
-            } else {
-                if (!s.pw || !s.gender) { openSetupModal(idx); return; } 
-            }
-            
+            } else { if (!s.pw || !s.gender) { openSetupModal(idx); return; } }
             checkAutoTitles(idx);
             currentIdx = idx; 
             document.getElementById('mainPage').style.display='none'; 
@@ -724,10 +673,10 @@
             document.getElementById('shopPage').style.display='none'; 
             document.getElementById('quizPage').style.display='none'; 
             updateUI(); 
-            
             if(s.gender) checkEvolution(idx);
         } 
 
+        // 🚀 수정됨: 5강 -> 6강부터 능력치 300 제한 로직 적용
         function updateUI() { 
             const s = students[currentIdx]; 
             if(!s) return; 
@@ -736,22 +685,19 @@
             const placeholderEl = document.getElementById('detailCharPlaceholder');
             if(s.characterImg) {
                 imgEl.src = s.characterImg; imgEl.style.display = 'block'; placeholderEl.style.display = 'none';
-            } else {
-                imgEl.style.display = 'none'; placeholderEl.style.display = 'block';
-            }
+            } else { imgEl.style.display = 'none'; placeholderEl.style.display = 'block'; }
             document.getElementById('detailCharName').innerText = s.characterName || '캐릭터 미설정';
             document.getElementById('detailCharTier').innerText = (s.characterStage && s.characterStage !== 99) ? `Tier ${s.characterStage}` : (s.characterStage === 99 ? '관리자' : 'Tier 0');
 
-            // 🌟 상세 페이지 강화 UI 업데이트
+            // 강화 UI 업데이트
             const enhanceSec = document.getElementById('enhanceSection');
             const enhanceBtn = document.getElementById('enhanceBtn');
             const nextInfo = document.getElementById('enhanceNextInfo');
+            const statSum = Object.values(s.stats).reduce((a, b) => a + b, 0);
 
-            // 선생님도 강화 가능하게 수정 완료
             enhanceSec.style.display = 'block';
             const Lv = s.enhanceLevel || 0;
             document.getElementById('dtEnhanceLevel').innerText = Lv;
-            
             const currentEffect = Lv === 0 ? 0 : enhanceConfig[Lv-1].effect;
             document.getElementById('dtCurrentEffect').innerText = currentEffect;
 
@@ -761,19 +707,28 @@
                 enhanceBtn.innerText = "🔱 최고 단계 도달 (MAX)";
             } else {
                 nextInfo.style.display = 'block';
-                enhanceBtn.disabled = false;
                 const config = enhanceConfig[Lv]; 
+                
+                // [수정 사항] 5강 -> 6강(Lv 5일 때), 6강 -> 7강(Lv 6일 때)은 능력치 300 제한
+                const isStatLocked = (Lv >= 5 && statSum < 300);
                 
                 let rewardHtml = config.reward > 0 ? `<br>성공 시 보상: <span style="color:var(--green); font-weight:bold;">+${config.reward.toLocaleString()}원</span>` : '';
 
-                // 🌟 페널티 없음 문구 적용
                 nextInfo.innerHTML = `
                     강화 비용: <span style="color:#d35400; font-weight:bold;">${config.cost.toLocaleString()}원</span><br>
                     성공 확률: <span style="color:var(--main-blue); font-weight:bold;">${Math.round(config.prob * 100)}%</span><br>
                     성공 효과: 모든 능력 +${config.effect - currentEffect}${rewardHtml}<br>
+                    ${isStatLocked ? `<div style="color:var(--admin-red); font-weight:bold; margin-top:5px;">⚠️강화 조건: 능력치 300 이상</div>` : ''}
                 `;
 
                 enhanceBtn.innerText = `✨ ${Lv}강 ➔ ${Lv+1}강 강화 시도`;
+                
+                if (isStatLocked) {
+                    enhanceBtn.disabled = true;
+                    enhanceBtn.innerText = "🔒 능력치 부족 (300 미만)";
+                } else {
+                    enhanceBtn.disabled = false;
+                }
             }
 
             document.getElementById('viewName').innerText = (currentIdx === 24) ? `🏫 ${s.name}` : `${s.num}번 ${s.name}`; 
@@ -781,9 +736,8 @@
             document.getElementById('viewMyDonation').innerText = s.donation.toLocaleString(); 
             document.getElementById('myMedals').innerHTML = (s.myTitles || []).map(t => `<span title="${t.name}: ${t.effect}" style="font-size:25px; cursor:help;">${t.icon}</span>`).join(' '); 
             
-            let totalS = 0; let h = '', adminH = ''; 
+            let h = '', adminH = ''; 
             for (let [k, v] of Object.entries(s.stats)) { 
-                totalS += v;
                 h += `<div style="margin-bottom:8px; display:flex; align-items:center; gap:10px; font-size:14px;"> 
                     <span style="width:60px">${k}</span> 
                     <div style="flex:1; height:8px; background:#eee; border-radius:4px; overflow:hidden;"><div style="height:100%; background:var(--main-blue); width:${v}%"></div></div> 
@@ -793,22 +747,26 @@
                     <div><button class="stat-admin-btn" onclick="updateStat('${k}', 1)">+1</button><button class="stat-admin-btn" onclick="updateStat('${k}', -1)">-1</button></div> 
                 </div>`; 
             } 
-            document.getElementById('viewStatSum').innerText = totalS;
+            document.getElementById('viewStatSum').innerText = statSum;
             document.getElementById('statList').innerHTML = h; 
             document.getElementById('adminStatControls').innerHTML = adminH; 
             document.getElementById('adminPanel').style.display = isAdmin ? 'block' : 'none'; 
         } 
 
-        // 🌟 수정된 강화 시도 로직 (실패 시 단계 하락 없음, 보상/비용/확률 신규 규칙 적용)
+        // 🚀 수정됨: 실제 강화 함수에서도 능력치 300 체크 로직 추가
         function attemptEnhance() {
             const s = students[currentIdx];
-            if (!s) return; // 선생님 강화 가능!
+            if (!s) return;
             
             const currentLv = s.enhanceLevel || 0;
             if (currentLv >= 7) return alert("이미 최고 단계입니다.");
 
-            const config = enhanceConfig[currentLv];
+            const statSum = Object.values(s.stats).reduce((a, b) => a + b, 0);
+            if (currentLv >= 5 && statSum < 300) {
+                return alert("강화 불가: 6강화부터는 총 능력치 합계가 300 이상이어야 합니다.");
+            }
 
+            const config = enhanceConfig[currentLv];
             if (s.money < config.cost) {
                 return alert(`돈이 부족합니다.\n필요 금액: ${config.cost.toLocaleString()}원`);
             }
@@ -816,30 +774,23 @@
             if(!confirm(`${currentLv}강 ➔ ${currentLv+1}강 강화를 시도하시겠습니까?\n비용: ${config.cost.toLocaleString()}원\n성공 확률: ${Math.round(config.prob*100)}%`)) return;
 
             s.money -= config.cost;
-
             const roll = Math.random();
             let isSuccess = roll < config.prob;
             let statChanges = 0; 
 
             if (isSuccess) {
                 s.enhanceLevel = currentLv + 1;
-                
-                // 🌟 이전 단계 효과를 빼고 차이만큼만 증가시키기
                 const prevTotalEffect = currentLv === 0 ? 0 : enhanceConfig[currentLv-1].effect;
                 const newTotalEffect = enhanceConfig[currentLv].effect;
                 statChanges = newTotalEffect - prevTotalEffect;
-
                 let rewardMsg = "";
                 if (config.reward > 0) {
                     s.money += config.reward;
                     rewardMsg = `\n💰 보상금 ${config.reward.toLocaleString()}원 획득!`;
                 }
-
                 alert(`🎊 축하합니다! 강화 성공!\n[${currentLv+1}강화] 달성! (모든 능력 +${statChanges} 추가 적용)${rewardMsg}`);
             } else {
-                // 🌟 실패 시 단계 유지 (페널티 제거 적용)
                 alert(`🔨 아아... 강화 실패입니다.\n하지만 다행히 단계가 하락하지 않습니다! (${currentLv}강 유지)`);
-                statChanges = 0;
             }
 
             if (statChanges !== 0) {
@@ -847,7 +798,6 @@
                     s.stats[k] = Math.max(1, Math.min(100, s.stats[k] + statChanges));
                 });
             }
-
             updateStudentDB(currentIdx);
             checkAutoTitles(currentIdx); 
             checkEvolution(currentIdx); 
@@ -858,20 +808,14 @@
             if (!isAdmin) { 
                 if (btoa(prompt("비밀번호를 입력하세요")) === ADMIN_TOKEN) isAdmin = true; 
                 else { alert("비밀번호가 틀렸습니다."); return; }
-            } 
-            else isAdmin = false; 
-            
+            } else isAdmin = false; 
             document.getElementById('mainAdminLoginBtn').innerText = isAdmin ? "🔓 로그아웃" : "🔒 관리자 로그인"; 
             document.getElementById('mainAdminLoginBtn').classList.toggle('active', isAdmin); 
             document.getElementById('adminEvoPanel').style.display = isAdmin ? "block" : "none"; 
             document.getElementById('adminShopPanel').style.display = isAdmin ? "block" : "none"; 
             document.getElementById('adminQuizPanel').style.display = isAdmin ? "block" : "none"; 
             renderGrid(); 
-            
-            if(isAdmin) { 
-                renderAdminShop(); 
-                renderAdminQuizList(); 
-            }
+            if(isAdmin) { renderAdminShop(); renderAdminQuizList(); }
         } 
 
         function updateStat(key, amt) { const s = students[currentIdx]; s.stats[key] = Math.max(0, Math.min(100, s.stats[key] + amt)); updateStudentDB(currentIdx); checkEvolution(currentIdx); } 
@@ -889,7 +833,6 @@
                 tH += `<div class="item-card"><div style="font-size:25px">${t.icon}</div> <strong>${t.name}</strong><br><small>${t.effect}</small><br> <span style="color:var(--gold); font-weight:bold;">${t.price.toLocaleString()}원</span><br> ${owned ? '<b>보유중</b>' : `<button class="btn btn-blue" onclick="buyTitle('${t.id}')">구매</button>`}</div>`; 
             }); 
             document.getElementById('titleShopGrid').innerHTML = tH || '판매 중인 칭호가 없습니다.'; 
-            
             let pH = ''; 
             potionData.forEach(p => { 
                 pH += `<div class="item-card ${!p.onSale ? 'sold-out' : ''}"><div style="font-size:25px">${p.icon}</div> <strong>${p.name}</strong><br><span style="color:var(--purple); font-weight:bold;">${p.price.toLocaleString()}원</span><br> ${!p.onSale ? '<b>품절</b>' : `<button class="btn" style="background:var(--purple); color:white;" onclick="buyPotion('${p.id}')">구매</button>`}</div>`; 
@@ -900,12 +843,10 @@
         function buyTitle(id) { 
             const t = titleData.find(x => x.id === id); const s = students[currentIdx]; 
             if(!s.myTitles) s.myTitles = []; if(s.money < t.price) return alert("돈 부족"); if(s.myTitles.some(m => m.id === t.id)) return alert("이미 있음"); 
-            
             s.money -= t.price; s.myTitles.push(t); 
-            
             let statMsg = "";
             if(['t1', 't2', 't3', 't10'].includes(t.id)) {
-                let bonus = 5;
+                let bonus = 1;
                 if (t.id === 't1') bonus = 1; else if (t.id === 't2') bonus = 5; else if (t.id === 't3') bonus = 10; else if (t.id === 't10') bonus = 20;
                 Object.keys(s.stats).forEach(k => { s.stats[k] = Math.min(100, s.stats[k] + bonus); });
                 statMsg = `\n모든 능력치가 +${bonus} 상승했습니다!`;
@@ -916,7 +857,6 @@
                 const statKey = mapping[t.id];
                 if(statKey) { s.stats[statKey] = Math.min(100, s.stats[statKey] + 10); statMsg = `\n${statKey} 능력치가 +10 상승했습니다!`; }
             }
-            
             updateStudentDB(currentIdx); alert(`🎉 [${t.name}] 칭호 구매 완료!${statMsg}`); 
             renderShopItems(); checkAutoTitles(currentIdx); checkEvolution(currentIdx); 
         }
@@ -925,7 +865,6 @@
             const p = potionData.find(x => x.id === id); const s = students[currentIdx]; 
             if (s.stats[p.stat] >= 100) return alert(`이미 [${p.stat}] 최대치입니다.`);
             if (s.money < p.price) return alert("돈 부족"); 
-            
             s.money -= p.price; s.stats[p.stat] = Math.min(100, s.stats[p.stat] + 1); 
             updateStudentDB(currentIdx); alert(`🧪 ${p.name} 사용!`); 
             renderShopItems(); checkAutoTitles(currentIdx); checkEvolution(currentIdx); if (typeof updateUI === 'function') updateUI();
@@ -975,14 +914,12 @@
         function addQuiz() {
             const desc = document.getElementById('qInputDesc').value.trim(); const type = document.getElementById('qInputType').value; const rewardType = document.getElementById('qRewardType').value; const rewardAmt = parseInt(document.getElementById('qRewardAmount').value);
             if(!desc || isNaN(rewardAmt)) return alert("문제와 보상량 입력!");
-
             let quizObj = { id: 'q_' + Date.now(), desc: desc, type: type, image: tempQuizImageBase64, rewardType: rewardType, rewardAmt: rewardAmt, active: true };
             if(type === 'multiple') {
                 const count = parseInt(document.getElementById('qOptionCount').value); let optionsArray = []; let answersArray = []; 
                 for(let i=1; i<=count; i++) { const optVal = document.getElementById(`qOpt${i}`).value.trim(); if(!optVal) return alert("보기 빈칸 오류!"); optionsArray.push(optVal); if(document.getElementById(`qCorrect${i}`).checked) answersArray.push(String(i)); }
                 if(answersArray.length === 0) return alert("최소 1개 이상 정답 체크!"); quizObj.options = optionsArray; quizObj.answer = answersArray; 
             } else { const ans = document.getElementById('qAnswerShort').value.trim(); if(!ans) return alert("주관식 정답 입력!"); quizObj.answer = ans; }
-
             quizData.push(quizObj); updateQuizDB(); alert("등록 완료!");
             document.getElementById('qInputDesc').value = ""; document.getElementById('qInputImg').value = ""; document.getElementById('qImgPreview').style.display = "none"; tempQuizImageBase64 = ""; document.getElementById('qAnswerShort').value = "";
             if (type === 'multiple') generateMultipleChoiceInputs(); renderAdminQuizList();
